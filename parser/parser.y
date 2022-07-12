@@ -3503,6 +3503,10 @@ value_expression:
     // will be non-trivial because of grammar conflicts.
     $$ = &IntervalExpr{Expr: $2, Unit: $3.String()}
   }
+| value_expression TYPECAST UUID
+  {
+    $$ = &ConvertExpr{Expr: $1, Type: &ConvertType{Type: string($3)}}
+  }
 | value_expression TYPECAST simple_convert_type
   {
     $$ = &TypeCastExpr{Expr: $1, Type: $3}
