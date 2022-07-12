@@ -1657,6 +1657,7 @@ func (*GroupConcatExpr) iExpr()     {}
 func (*Default) iExpr()             {}
 func (*ArrayConstructor) iExpr()    {}
 func (*FuncCallExpr) iExpr()        {}
+func (*TypeCastExpr) iExpr()        {}
 
 // Exprs represents a list of value expressions.
 // It's not a valid expression because it's not parenthesized.
@@ -2789,3 +2790,12 @@ type ArrayElement interface {
 }
 
 func (*SQLVal) iArrayElement() {}
+
+type TypeCastExpr struct {
+	Expr Expr
+	Type *ConvertType
+}
+
+func (node *TypeCastExpr) Format(buf *TrackedBuffer) {
+	buf.Myprintf("%v::%v", node.Expr, node.Type)
+}
